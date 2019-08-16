@@ -1,0 +1,68 @@
+﻿Nom de l'application
+--------------------
+Programmable Click
+
+Langages
+---------
+Code
+	JavaScript Pure et JQuery (Si besoin mais pas utile et peu performant)
+	Classes Javascript
+	JSON
+	Local Storage
+Interface
+	Html
+	CSS
+Texte
+	Contenu affiché, pages, code, variables, etc... : Tout en Anglais
+
+User Interface
+--------------
+Page Accueil
+	Page "Click" (Priorité 1 à finaliser avant de passer à la suite)
+		Beats Per Minute : Champ Texte Numérique Entier avec flèches haut et bas (Défaut 100)
+		Beats Per Bar : Liste déroulante (1 à 24 - Défaut 4)
+		Play : Bouton
+	Page "Arrangements" (Liste d'arrangements)
+		Page "Clicks" (Liste de Clicks)
+			Page "Détail" (Détail d'un Click)
+	Page "Detector"
+		Bouton "Tap to detect"
+
+Code
+----
+Faire une Classe Click
+	Id (Int) // Pas sûr ou peut-être pour plus tard avec les arrangements ?
+	BeatsPerMinute (Int - 1 à 500)
+	BeatsPerBar (Int - 1 à 24)
+Faire l'interface avec les 4 pages décrites ci-dessus avec comme première page index.html (Accueil) (Pour faire marcher PhoneGap Build)
+	Page "Click"
+		Vérifier si tu as un key "Click" dans ton localStorage
+			Si non, afficher les valeurs par défaut
+			Si oui, désérialiser la value du Json Click et mettre dans le champs Texte BeatsPerMinute et la liste déroulante BeatsPerBar les valeurs désérialisées
+			Dans tous les cas initialiser la classe Click pour gérer tout depuis cette classe
+		Gérer les évènements ontextchange de BeatsPerMinute et onselectedindexchanged de BeatsPerBar (Full Javascript soit JQuery) pour :
+			Si on a cliqué sur play, que ça prenne en compte les modifications en temps réel
+				Sinon ne rien faire
+			Enregistrer dans le localstorage la classe Click selon les éléments de l'interface
+				Key = "Click"
+				Value = Serializer la classe JavaScript en Json
+		Click sur bouton Play
+			Le texte devient "Stop"
+			Lire un mp3 selon BeatsPerMinute (Click simple sans gestion de BeatsPerBar)
+				60 BPM => 1 BPS => Lancer le son toutes les 1000 Millisecondes
+				120 BPM => 2 BPS => Lancer le son toutes les 500 Millisecondes
+				Calculer en ms quand lancer le prochain son
+				Faire un SetInterval qui lance le son à tous les intervales calculés en MS
+			Lire deux mp3 selon BeatsPerMinute et BeatsPerBar (Un premier son aigu et les autres (BeatsPerBar - 1) grave (Sauf si BeatsPerBar = 1 qui ne jouera que le son aigu))
+				Faire pareil que précédement, mais gérer le premier son aigu et les autres graves puis faire une boucle infinie
+			Si click sur bouton "Stop"
+				Le texte devient "Play"
+				On arrête de jouer les sons (On arrête le SetInterval)
+
+Compilation Mobile
+------------------
+Voir PhoneGap Build : http://docs.phonegap.com/tutorials/develop/hello-world-explained/
+
+fannybornarel@gmail.com
+
+Bon codage !
